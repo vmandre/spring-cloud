@@ -16,16 +16,23 @@ import java.util.List;
 @RequestMapping("/room-reservations")
 public class RoomReservationWebService {
 
-    private final RestTemplate restTemplate;
+    // we're going to use Feign
+//    private final RestTemplate restTemplate;
+//    public RoomReservationWebService(RestTemplate restTemplate) {
+//        super();
+//        this.restTemplate = restTemplate;
+//    }
 
-    public RoomReservationWebService(RestTemplate restTemplate) {
-        super();
-        this.restTemplate = restTemplate;
+    private final RoomClient roomClient;
+
+    public RoomReservationWebService(RoomClient roomClient) {
+        this.roomClient = roomClient;
     }
 
     @GetMapping
     public List<RoomReservation> getRoomReservations() {
-        List<Room> rooms = this.getAllRooms();
+//        List<Room> rooms = this.getAllRooms();
+        List<Room> rooms = this.roomClient.getAllRooms();
         List<RoomReservation> roomReservations = new ArrayList<>();
 
         rooms.forEach(room -> {
@@ -39,8 +46,8 @@ public class RoomReservationWebService {
         return roomReservations;
     }
 
-    private List<Room> getAllRooms() {
-        ResponseEntity<List<Room>> roomResponse = this.restTemplate.exchange("http://ROOMSERVICES/rooms", HttpMethod.GET, null, new ParameterizedTypeReference<List<Room>>() {});
-        return roomResponse.getBody();
-    }
+//    private List<Room> getAllRooms() {
+//        ResponseEntity<List<Room>> roomResponse = this.restTemplate.exchange("http://ROOMSERVICES/rooms", HttpMethod.GET, null, new ParameterizedTypeReference<List<Room>>() {});
+//        return roomResponse.getBody();
+//    }
 }
